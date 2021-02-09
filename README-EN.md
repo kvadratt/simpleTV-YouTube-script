@@ -2,10 +2,6 @@
  <a title="русский" href="../../"><img src="../../blob/main/img/ru.png?raw=true" alt="русский" /> </a><strong><sup><sub>RU</sub></sup></strong>
 </p>
 
-[![Issues][badge-issues]][Issues]
-[![Forks][badge-forks]][Forks]
-[![Stars][badge-stars]][Stars]
-
 [![simpleTV homepage][badge-simpletvhomepage]][simpleTV homepage]
 [![simpleTV bugtracker][badge-simpletvbugtracker]][simpleTV bugtracker]
 [![simpleTV IPTV player API][badge-simpletvapi]][simpleTV API]
@@ -39,9 +35,6 @@
 [simpleTV bugtracker]: http://iptv.gen12.net/bugtracker "simpleTV bugtracker"
 [RU]: ../../ "русский"
 
-[badge-issues]: https://img.shields.io/github/issues-raw/Nexterr-origin/simpleTV-script-YT?color=%232b2b2b&labelColor=%23303f50 "Open issues"
-[badge-forks]: https://img.shields.io/github/forks/Nexterr-origin/simpleTV-script-YT?color=%232b2b2b&labelColor=%23303f50 "Forks"
-[badge-stars]: https://img.shields.io/github/stars/Nexterr-origin/simpleTV-script-YT?color=%232b2b2b&labelColor=%23303f50 "Stars"
 [badge-simpletvapi]: https://img.shields.io/badge/simpleTV-Lua%20API-%232b2b2b?style=flat-square&labelColor=%23303f50 "simpleTV Lua API"
 [badge-lua]: https://img.shields.io/badge/Lua-5.1-%232b2b2b?style=flat-square&labelColor=%23303f50 "Lua 5.1"
 [badge-license]: https://img.shields.io/badge/License-Apache%202.0-%232b2b2b?style=flat-square&labelColor=%23303f50 "License Apache 2.0"
