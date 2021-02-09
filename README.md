@@ -11,7 +11,7 @@
 <table width="100%">
   <tr>
     <td>
-      <a href="./releases">
+      <a href="../../releases">
         <img src="./img/logo_f1.png?raw=true" 
             title="скачать" alt="simpleTV homepage" width="70"/>
       </a>
