@@ -22,7 +22,6 @@
   </tr>
 </table>
 
-**Установка**
  - поместить **`YT.lua`** в папку _`..\luaScr\user\video`_
 
 [simpleTV API]: http://iptv.gen12.net/dokuwiki/doku.php?id=mantis:simpletv:api "simpleTV API"
