@@ -13,7 +13,7 @@
     <td>
       <a href="../../releases">
         <img src="./img/logo_f1.png?raw=true" 
-            title="скачать" alt="скачать" width="70"/>
+            title="скачать" width="70"/>
       <br>скачать</a>
     </td>
     <td>
