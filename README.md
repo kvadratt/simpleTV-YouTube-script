@@ -1,4 +1,4 @@
-### Скрипт YouTube для [IPTV плеера simpleTV](http://iptv.gen12.net)
+### Скрипт YouTube для IPTV плеера [simpleTV](http://iptv.gen12.net)
 
 ----------------------------------------------
 **`YT.lua`** в папку _`..\luaScr\user\video`_
