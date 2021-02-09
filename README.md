@@ -1,26 +1,8 @@
-<p align="right">
- <a title="english" href="./README-EN.md"><img src="https://raw.githubusercontent.com/Nexterr-origin/simpleTV-YouTube-script/main/img/gb.png" alt="english" /> </a><strong><sup><sub>EN</sub></sup></strong>
-</p>
 
-[![simpleTV homepage][badge-simpletvhomepage]][simpleTV homepage]
-[![simpleTV bugtracker][badge-simpletvbugtracker]][simpleTV bugtracker]
-[![simpleTV IPTV player API][badge-simpletvapi]][simpleTV API]
-[![Lua][badge-lua]][Lua]
-[![License][badge-license]][License]
 
-<table width="100%">
-  <tr>
-    <td>
-      <a href="../../releases">
-        <img src="https://raw.githubusercontent.com/Nexterr-origin/simpleTV-YouTube-script/main/img/logo_f1.png" 
-            title="скачать" width="70"/>
-      <br>скачать</a>
-    </td>
-    <td>
+
     <h3>Скрипт YouTube для IPTV плеера simpleTV</h3>
-    <p align="center"><sub>v0.5.0</sub> <strong><code>b12.7.6</code></strong> <sub>(vlc 3.0.11)</sub></p>
-  </tr>
-</table>
+
 
 :point_right: поместить **`YT.lua`** в папку _`..\luaScr\user\video`_
 
