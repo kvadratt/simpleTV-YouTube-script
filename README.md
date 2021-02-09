@@ -14,7 +14,7 @@
       <a href="../../releases">
         <img src="./img/logo_f1.png?raw=true" 
             title="скачать" alt="скачать" width="70"/>
-      </a>
+      <br>скачать</a>
     </td>
     <td>
     <h3>Скрипт YouTube для IPTV плеера simpleTV</h3>
