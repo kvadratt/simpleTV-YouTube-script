@@ -11,9 +11,9 @@
 <table width="100%">
   <tr>
     <td>
-      <a href="http://iptv.gen12.net">
+      <a href="../../releases">
         <img src="./img/logo_f1.png?raw=true" 
-            title="homepage" alt="simpleTV homepage" width="70"/>
+            title="releases" alt="releases" width="70"/>
       </a>
     </td>
     <td>
