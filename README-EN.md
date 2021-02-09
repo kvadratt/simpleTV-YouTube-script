@@ -1,5 +1,5 @@
 <p align="right">
- <a title="русский" href="../../"><img src="../../blob/main/img/ru.png?raw=true" alt="русский" /> </a><strong><sup><sub>RU</sub></sup></strong>
+ <a title="русский" href="../../"><img src="./img/ru.png?raw=true" alt="русский" /> </a><strong><sup><sub>RU</sub></sup></strong>
 </p>
 
 [![simpleTV homepage][badge-simpletvhomepage]][simpleTV homepage]
@@ -12,7 +12,7 @@
   <tr>
     <td>
       <a href="http://iptv.gen12.net">
-        <img src="../../blob/main/img/logo_f1.png?raw=true" 
+        <img src="./img/logo_f1.png?raw=true" 
             title="homepage" alt="simpleTV homepage" width="70"/>
       </a>
     </td>
@@ -25,15 +25,11 @@
 **Installation**
  - put **`YT.lua`** in _`..\luaScr\user\video`_
 
-[Issues]: ../../issues "Issues"
-[Forks]: ../../network/members "Forks"
-[Stars]: ../../stargazers "Stars"
 [simpleTV API]: http://iptv.gen12.net/dokuwiki/doku.php?id=mantis:simpletv:api "simpleTV API"
 [Lua]: https://www.lua.org/manual/5.1 "Lua 5.1"
-[License]: ../../blob/master/LICENSE "License Apache 2.0"
+[License]: ./LICENSE "License Apache 2.0"
 [simpleTV homepage]: http://iptv.gen12.net "simpleTV homepage"
 [simpleTV bugtracker]: http://iptv.gen12.net/bugtracker "simpleTV bugtracker"
-[RU]: ../../ "русский"
 
 [badge-simpletvapi]: https://img.shields.io/badge/simpleTV-Lua%20API-%232b2b2b?style=flat-square&labelColor=%23303f50 "simpleTV Lua API"
 [badge-lua]: https://img.shields.io/badge/Lua-5.1-%232b2b2b?style=flat-square&labelColor=%23303f50 "Lua 5.1"
