@@ -13,8 +13,8 @@
     <td>
       <a href="../../releases">
         <img src="./img/logo_f1.png?raw=true" 
-            title="releases" alt="releases" width="70"/>
-      </a>
+            title="Releases" width="70"/>
+       <br>Releases</a>
     </td>
     <td>
     <h3>YouTube script for simpleTV IPTV player</h3>
