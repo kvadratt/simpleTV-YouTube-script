@@ -13,7 +13,7 @@
     <td>
       <a href="../../releases">
         <img src="./img/logo_f1.png?raw=true" 
-            title="скачать" alt="simpleTV homepage" width="70"/>
+            title="скачать" alt="скачать" width="70"/>
       </a>
     </td>
     <td>
