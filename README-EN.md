@@ -1,5 +1,5 @@
 <p align="right">
- <a title="русский" href="../../"><img src="../../blob/main/img/ru.png?raw=true" alt="русский" /> </a><strong><sup><sub>RU</sub></sup></strong>
+ <a title="русский" href="../../"><img src="../../raw/main/img/ru.png" alt="русский" /> </a><strong><sup><sub>RU</sub></sup></strong>
 </p>
 
 [![simpleTV homepage][badge-simpletvhomepage]][simpleTV homepage]
@@ -12,7 +12,7 @@
   <tr>
     <td>
       <a href="../../releases">
-        <img src="../../blob/main/img/logo_f1.png?raw=true" 
+        <img src="../../raw/main/img/logo_f1.png" 
             title="Releases" width="70"/>
        <br>Releases</a>
     </td>
