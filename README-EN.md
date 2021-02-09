@@ -17,7 +17,7 @@
       </a>
     </td>
     <td>
-    <h3>Script YT for IPTV Player simpleTV</h3>
+    <h3>YouTube script for simpleTV IPTV player</h3>
     <p align="center"><sub>v0.5.0</sub> <strong><code>b12.7.6</code></strong> <sub>(vlc 3.0.11)</sub></p>
   </tr>
 </table>
