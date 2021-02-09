@@ -1,5 +1,5 @@
 <p align="right">
- <a title="english" href="./README-EN.md"><img src="../../blob/main/img/gb.png?raw=true" alt="english" /> </a><strong><sup><sub>EN</sub></sup></strong>
+ <a title="english" href="./README-EN.md"><img src="./img/gb.png?raw=true" alt="english" /> </a><strong><sup><sub>EN</sub></sup></strong>
 </p>
 
 [![simpleTV homepage][badge-simpletvhomepage]][simpleTV homepage]
@@ -12,7 +12,7 @@
   <tr>
     <td>
       <a href="http://iptv.gen12.net">
-        <img src="../../blob/main/img/logo_f1.png?raw=true" 
+        <img src="./img/logo_f1.png?raw=true" 
             title="домашняя страница" alt="simpleTV homepage" width="70"/>
       </a>
     </td>
@@ -27,7 +27,7 @@
 
 [simpleTV API]: http://iptv.gen12.net/dokuwiki/doku.php?id=mantis:simpletv:api "simpleTV API"
 [Lua]: https://www.lua.org/manual/5.1 "Lua 5.1"
-[License]: ../../blob/master/LICENSE "License Apache 2.0"
+[License]: ./LICENSE "License Apache 2.0"
 [simpleTV homepage]: http://iptv.gen12.net "домашняя страница"
 [simpleTV bugtracker]: http://iptv.gen12.net/bugtracker "багтрекер"
 [EN]: ./README-EN.md "english"
