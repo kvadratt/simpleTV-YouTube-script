@@ -1,5 +1,5 @@
 <p align="right">
- <a title="english" href="./README-EN.md"><img src="./img/gb.png" alt="english" /> </a><strong><sup><sub>EN</sub></sup></strong>
+ <a title="english" href="./README-EN.md"><img src="./img/gb.png?raw=true" alt="english" /> </a><strong><sup><sub>EN</sub></sup></strong>
 </p>
 
 [![simpleTV homepage][badge-simpletvhomepage]][simpleTV homepage]
@@ -12,7 +12,7 @@
   <tr>
     <td>
       <a href="../../releases">
-        <img src="./img/logo_f1.png" 
+        <img src="./img/logo_f1.png?raw=true" 
             title="скачать" width="70"/>
       <br>скачать</a>
     </td>
