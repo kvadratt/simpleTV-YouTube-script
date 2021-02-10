@@ -1,4 +1,4 @@
--- видеоскрипт для сайта https://www.youtube.com (8/2/21)
+-- видеоскрипт для сайта https://www.youtube.com (12/2/21)
 --[[
 	Copyright © 2017-2021 Nexterr
 	Licensed under the Apache License, Version 2.0 (the "License");
@@ -2660,7 +2660,6 @@ https://github.com/grafi-tt/lunaJson
 			end
 		ret.request = {}
 		ret.request.url = string.format('https://www.youtube.com/browse_ajax?ctoken=%s&continuation=%s', continuation, continuation)
-		m_simpleTV.Http.SetCookies(session, ret.request.url, m_simpleTV.User.YT.cookies, '')
 		ret.request.headers = params.User.headers
 		ret.Count = #params.User.tab
 		if params.User.plstTotalResults then
