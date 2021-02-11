@@ -1022,7 +1022,7 @@ https://github.com/grafi-tt/lunaJson
 		d = d:gsub('\\', '\\')
 	 return d
 	end
-	local function desc_format_text(desc)
+	local function desc_format_text(desc, isSearch)
 		desc = desc_clean(desc)
 		desc = string.gsub(desc, '(https?://%S+)',
 				function(c)
@@ -1034,31 +1034,44 @@ https://github.com/grafi-tt/lunaJson
 					end
 				 return c:gsub('([,)]+)"', '"%1'):gsub('([,)]+)</a>', '</a>%1')
 				end)
-		desc = string.gsub(desc, 'none">(https?://[%a.]*youtu[.combe][^<]+)<',
+		if not isSearch then
+			desc = string.gsub(desc, 'none">(https?://[%a.]*youtu[.combe][^<]+)<',
 				function(c)
 						if c:match('sub_confirmation') or c:match('subscription_center') then return end
 				 return string.format('none">%s</a> <a href="simpleTVLua:PlayAddressT_YT(\'%s\')"><img src="' .. m_simpleTV.User.YT.playIcoDisk ..'" height="32" valign="top"><', c, utf8ToEscUnicode(urls_encode(c)))
 				end)
-		desc = string.gsub(desc, '#([^%s%c#,]+)',
+			desc = string.gsub(desc, '#([^%s%c#,]+)',
 				function(c)
 						if c:match('^%d%-?%d?$') then return end
 					if c:match('%.$') then
 						c = string.format('<span style="color:%%23817c76; font-size:small;">#%s</span>', c)
 					else
-						c = string.format('<a href="simpleTVLua:PlayAddressT_YT(\'https://www.youtube.com/hashtag/%s\')" style="color:#154C9C; font-size:small; text-decoration:none">#%s</a>', utf8ToEscUnicode(urls_encode(c:gsub('%p+$', ''))), c)
+						c = string.format('<a href="simpleTVLua:PlayAddressT_YT(\'https://www.youtube.com/hashtag/%s\')" style="color:#436FAF; font-size:small; text-decoration:none">#%s</a>', utf8ToEscUnicode(urls_encode(c:gsub('%p+$', ''))), c)
 					end
 				 return c
 				end)
+		else
+			desc = string.gsub(desc, '#([^%s%c#,]+)',
+				function(c)
+						if c:match('^%d%-?%d?$') then return end
+					if c:match('%.$') then
+						c = string.format('<span style="color:%%23817c76; font-size:small;">#%s</span>', c)
+					else
+						c = string.format('<a href="https://www.youtube.com/hashtag/%s" style="color:%%23154C9C; font-size:small; text-decoration:none">#%s</a>', c, c)
+					end
+				 return c
+				end)
+		end
 		desc = desc:gsub('%%23', '#')
 		desc = desc:gsub('"+', '"')
 		desc = desc:gsub('\n', '<br>')
 		desc = string.format('<p>%s</p>', desc)
 	 return desc
 	end
-	local function desc_html(desc, logo, name, adr)
+	local function desc_html(desc, logo, name, adr, isSearch)
 		desc = desc or ''
 		if desc ~= '' then
-			local err, d = pcall(desc_format_text, desc)
+			local err, d = pcall(desc_format_text, desc, isSearch)
 			if err == false then
 				desc = string.format('<p style="color:#ff0000; font-size:small">%s: %s</p>', m_simpleTV.User.YT.Lng.desc, m_simpleTV.User.YT.Lng.error)
 			else
@@ -1068,7 +1081,7 @@ https://github.com/grafi-tt/lunaJson
 		adr = adr:gsub('&is%a+=%a+', '')
 		local link = string.format('<a href="%s" style="color:#154C9C; font-size:small; text-decoration:none">🌎 %s</a>', adr, m_simpleTV.User.YT.Lng.link)
 		if m_simpleTV.User.YT.isVideo == true and m_simpleTV.User.YT.isChapters then
-			link = string.format('%s<br><a href="simpleTVLua:m_simpleTV.Control.ExecuteAction(37) m_simpleTV.Control.ExecuteAction(116)" style="color:#154C9C; font-size: small; text-decoration:none">🕜 %s</a>', link, m_simpleTV.User.YT.Lng.chapter)
+			link = string.format('%s<br><a href="simpleTVLua:m_simpleTV.Control.ExecuteAction(37) m_simpleTV.Control.ExecuteAction(116)" style="color:#436FAF; font-size: small; text-decoration:none">🕜 %s</a>', link, m_simpleTV.User.YT.Lng.chapter)
 		end
 		desc = string.format('<html><body bgcolor="#181818"><table width="99%%"><tr><td style="padding: 10px 10px 10px;"><a href="%s"><img src="%s"</a></td><td style="padding: 10px 10px 10px; color:#ebebeb; vertical-align:middle;"><h4><font color="#ebeb00">%s</h4><hr>%s%s</td></tr></table></body></html>', adr, logo, name, link, desc)
 	 return desc
@@ -1337,7 +1350,7 @@ https://github.com/grafi-tt/lunaJson
 								if desc and desc ~= '' then
 									panelDescName = m_simpleTV.User.YT.Lng.desc .. ' | '
 								end
-								t[k].InfoPanelDesc = desc_html(desc, t[k].InfoPanelLogo, name, t[k].Address)
+								t[k].InfoPanelDesc = desc_html(desc, t[k].InfoPanelLogo, name, t[k].Address, true)
 								if tab.items[j].snippet.channelTitle then
 									t[k].InfoPanelTitle = (panelDescName or '')
 														.. m_simpleTV.User.YT.Lng.channel
