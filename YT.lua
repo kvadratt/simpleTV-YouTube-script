@@ -3152,6 +3152,7 @@ https://github.com/grafi-tt/lunaJson
 				m_simpleTV.User.YT.ChPlst.Urls = nil
 				m_simpleTV.User.YT.ChPlst.FirstUrl = nil
 				m_simpleTV.User.YT.ChPlst.Num = nil
+				m_simpleTV.User.YT.upLoadOnCh = false
 			end
 		end
 		if m_simpleTV.User.YT.ChPlst.MainUrl ~= url then
@@ -3227,6 +3228,7 @@ https://github.com/grafi-tt/lunaJson
 		if not inAdr:match('browse_ajax') then
 			chId = inAdr:match('/channel/([^/]+)') or answer:match('/channel/([^"/]+)')
 		end
+		local upLoadOnCh_plst
 		local tab, i = {}, 1
 		local j = 1 + tonumber(num)
 		local shelf = inAdr:match('shelf_id=(%d+)') or '0'
@@ -3265,8 +3267,12 @@ https://github.com/grafi-tt/lunaJson
 				if plstTotalResults then
 					tab = plstTotalResults
 					i = 2
+					m_simpleTV.User.YT.upLoadOnCh = true
 				end
 			end
+		end
+		if m_simpleTV.User.YT.upLoadOnCh and j > 1 then
+			j = j - 1
 		end
 			for adr, logo, name, count in answer:gmatch('PlaylistRenderer":"playlistId":"([^"]+).-"thumbnails":%["url":"([^"]+).-"text":"([^"]+).-"videoCountShortText":"simpleText":"([^"]+)') do
 				tab[i] = {}
