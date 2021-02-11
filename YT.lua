@@ -1398,7 +1398,7 @@ https://github.com/grafi-tt/lunaJson
 							local sec = t[i]:match(':(%d+)%s')
 							local min = t[i]:match('(%d+):%d+%s')
 							local hour = t[i]:match('(%d+):%d+:%d+') or 0
-							local seekpoint = (sec + (min * 60) + (hour * 60 * 60))
+							local seekpoint = (sec + (min * 60) + (hour * 3600))
 							local title = t[i]:gsub('[%d:]*%d+:%d+', '')
 							if #tab == 0 then
 								x = 0
@@ -1412,6 +1412,10 @@ https://github.com/grafi-tt/lunaJson
 							elseif #tab < 3 then
 									if h == i then break end
 								h = i
+								tab = {}
+								chapTab(t, i)
+							end
+							if #tab == 2 and tab[1].seekpoint >= tab[2].seekpoint then
 								tab = {}
 								chapTab(t, i)
 							end
