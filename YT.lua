@@ -168,6 +168,7 @@ local infoInFile = false
 		and not inAdr:match('/user/')
 		and not inAdr:match('isChPlst=true'))
 		or inAdr:match('^https://music%.youtube%.com/browse')
+		or inAdr:match('&isSearch=true')
 	then
 		if m_simpleTV.Control.MainMode == 0 then
 			m_simpleTV.Interface.SetBackground({BackColor = 0, PictFileName = '', TypeBackColor = 0, UseLogo = 0, Once = 1})
@@ -3002,7 +3003,11 @@ https://github.com/grafi-tt/lunaJson
 	end
 	if inAdr:match('^%-') then
 		if m_simpleTV.Control.MainMode == 0 then
-			m_simpleTV.Control.ChangeChannelLogo(m_simpleTV.User.YT.logoDisk, m_simpleTV.Control.ChannelID)
+			if not inAdr:match('^%-related=') then
+				m_simpleTV.Control.ChangeChannelLogo('https://s.ytimg.com/yts/img/reporthistory/land-img-vfl_eF5BA.png', m_simpleTV.Control.ChannelID)
+			else
+				m_simpleTV.Control.ExecuteAction(37, 0)
+			end
 		end
 		local t, types, header = Search(inAdr)
 		m_simpleTV.Http.Close(session)
@@ -3036,13 +3041,13 @@ https://github.com/grafi-tt/lunaJson
 		if m_simpleTV.User.paramScriptForSkin_buttonOk then
 			t.OkButton = {ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
 		end
-		local ret, id = m_simpleTV.OSD.ShowSelect_UTF8('🔎 ' .. title, 0, t, 30000, 1 + 4 + 8 + 2 + 128)
-		m_simpleTV.Control.ExecuteAction(37)
+		local ret, id = m_simpleTV.OSD.ShowSelect_UTF8('🔎 ' .. title, 0, t, 30000, 1 + 4 + 8 + 2)
+		m_simpleTV.Control.ExecuteAction(37, 0)
 			if not id or ret == 3 then
 				m_simpleTV.Control.ExecuteAction(11)
 			 return
 			end
-		t = t[id].Address .. '&isLogo=false&isLogo=false'
+		t = t[id].Address .. '&isSearch=true'
 		PlayAddressT_YT(t)
 	 return
 	end
@@ -3141,6 +3146,7 @@ https://github.com/grafi-tt/lunaJson
 			url = url:gsub('(^.-/playlists)', '%1') .. '?view=1&sort=lad&shelf_id=0&isRestart=true'
 		end
 		url = url:gsub('&isRestart=true', '') .. '&isRestart=true'
+		url = url:gsub('&isSearch=true', '')
 		if not m_simpleTV.User.YT.ChPlst.countErr then
 			m_simpleTV.User.YT.ChPlst.countErr = 0
 		end
@@ -4116,11 +4122,11 @@ https://github.com/grafi-tt/lunaJson
 														, m_simpleTV.Control.ChannelID
 														, 'CHANGE_IF_NOT_EQUAL')
 					end
-					if not urlAdr:match('isLogo=false') then
+					if not urlAdr:match('isLogo=false') or urlAdr:match('isSearch=true') then
 						m_simpleTV.Control.ChangeChannelName(header, m_simpleTV.Control.ChannelID, false)
 					end
 				end
-				if not urlAdr:match('isLogo=false') or urlAdr:match('isLogo=false&isLogo=false') then
+				if not urlAdr:match('isLogo=false') then
 					m_simpleTV.Control.CurrentTitle_UTF8 = header
 				else
 					m_simpleTV.Control.SetTitle(header .. ' (' .. title .. ')')
