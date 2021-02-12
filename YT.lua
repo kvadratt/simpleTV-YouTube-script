@@ -1028,12 +1028,12 @@ https://github.com/grafi-tt/lunaJson
 		desc = string.gsub(desc, '(https?://%S+)',
 				function(c)
 					c = c:gsub('#', '%%23')
-					if c:match('%.%p*$') then
+					if c:match('%.%.%p*$') then
 						c = string.format('<span style="color:%%23817c76; font-size:small;">%s</span>', c)
 					else
 						c = string.format('<a href="%s" style="color:%%23319785; font-size:small; text-decoration:none">%s</a>', c, c)
 					end
-				 return c:gsub('([,)]+)"', '"%1'):gsub('([,)]+)</a>', '</a>%1')
+				 return c:gsub('([.,)]+)"', '"%1'):gsub('([.,)]+)</a>', '</a>%1')
 				end)
 		if not isSearch then
 			desc = string.gsub(desc, 'none">(https?://[%a.]*youtu[.combe][^<]+)<',
