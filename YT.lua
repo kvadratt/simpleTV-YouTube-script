@@ -3234,7 +3234,6 @@ https://github.com/grafi-tt/lunaJson
 		if not inAdr:match('browse_ajax') then
 			chId = inAdr:match('/channel/([^/]+)') or answer:match('"browseId":"([^"]+)')
 		end
-		local upLoadOnCh_plst
 		local tab, i = {}, 1
 		local j = 1 + tonumber(num)
 		local shelf = inAdr:match('shelf_id=(%d+)') or '0'
