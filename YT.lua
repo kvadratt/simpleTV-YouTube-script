@@ -2446,7 +2446,7 @@ https://github.com/grafi-tt/lunaJson
 						desc = g:match('"descriptionSnippet":{"runs":%[{"text":"([^"]+)')
 						count, count2 = g:match('"videoCountText":{"runs":%[{"text":"([^"]+)"},{"text":"([^"]+)')
 						subCount = g:match('"subscriberCountText":{"simpleText":"([^"]+)')
-						logo = g:match('"thumbnails":%[{"url":"([^"]+)') or ''
+						logo = g:match('"thumbnails":%[{"url":"[^%]]+"url":"([^"]+)') or g:match('"thumbnails":%[{"url":"([^"]+)') or ''
 						logo = logo:gsub('^//', 'https://')
 						tab[i].InfoPanelLogo = logo
 						tab[i].InfoPanelShowTime = 10000
@@ -3206,7 +3206,7 @@ https://github.com/grafi-tt/lunaJson
 		chTitle = title_clean(chTitle)
 		m_simpleTV.User.YT.ChTitle = chTitle
 		local channel_banner = answer:match('"tvBanner":{"thumbnails":%[.-:480},{"url":"(.-)%-fcrop')
-		local channel_avatar = answer:match('"avatar":{"thumbnails":%[{"url":"([^"]+)')
+		local channel_avatar = answer:match('"thumbnails":%[{"url":"[^%]]+"url":"([^"]+)') or answer:match('"avatar":{"thumbnails":%[{"url":"([^"]+)')
 		if channel_banner then
 			channel_banner = channel_banner:gsub('^//', 'https://')
 		end
@@ -3232,7 +3232,7 @@ https://github.com/grafi-tt/lunaJson
 		answer = answer:gsub('}', '')
 		local chId
 		if not inAdr:match('browse_ajax') then
-			chId = inAdr:match('/channel/([^/]+)') or answer:match('/channel/([^"/]+)')
+			chId = inAdr:match('/channel/([^/]+)') or answer:match('"browseId":"([^"]+)')
 		end
 		local upLoadOnCh_plst
 		local tab, i = {}, 1
