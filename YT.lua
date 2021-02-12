@@ -168,6 +168,7 @@ local infoInFile = false
 		and not inAdr:match('/user/')
 		and not inAdr:match('isChPlst=true'))
 		or inAdr:match('^https://music%.youtube%.com/browse')
+		or inAdr:match('&isSearch=true')
 	then
 		if m_simpleTV.Control.MainMode == 0 then
 			m_simpleTV.Interface.SetBackground({BackColor = 0, PictFileName = '', TypeBackColor = 0, UseLogo = 0, Once = 1})
@@ -205,7 +206,7 @@ local infoInFile = false
 		end
 		inAdr = inAdr:gsub('&isLogo=false', '')
 	end
-	local userAgent = 'Mozilla/5.0 (Windows NT 10.0; rv:84.0) Gecko/20100101 Firefox/84.0'
+	local userAgent = 'Mozilla/5.0 (Windows NT 10.0; rv:85.0) Gecko/20100101 Firefox/85.0'
 	local session = m_simpleTV.Http.New(userAgent)
 		if not session then return end
 	m_simpleTV.Http.SetTimeout(session, 14000)
@@ -1042,7 +1043,7 @@ https://github.com/grafi-tt/lunaJson
 				end)
 			desc = string.gsub(desc, '#([^%s%c#,]+)',
 				function(c)
-						if c:match('^%d%-?%d?$') then return end
+						if c:match('^%d%-%d%d?') then return end
 					if c:match('%.$') then
 						c = string.format('<span style="color:%%23817c76; font-size:small;">#%s</span>', c)
 					else
@@ -1053,7 +1054,7 @@ https://github.com/grafi-tt/lunaJson
 		else
 			desc = string.gsub(desc, '#([^%s%c#,]+)',
 				function(c)
-						if c:match('^%d%-?%d?$') then return end
+						if c:match('^%d%-%d%d?') then return end
 					if c:match('%.$') then
 						c = string.format('<span style="color:%%23817c76; font-size:small;">#%s</span>', c)
 					else
@@ -2445,7 +2446,7 @@ https://github.com/grafi-tt/lunaJson
 						desc = g:match('"descriptionSnippet":{"runs":%[{"text":"([^"]+)')
 						count, count2 = g:match('"videoCountText":{"runs":%[{"text":"([^"]+)"},{"text":"([^"]+)')
 						subCount = g:match('"subscriberCountText":{"simpleText":"([^"]+)')
-						logo = g:match('"thumbnails":%[{"url":"([^"]+)') or ''
+						logo = g:match('"thumbnails":%[{"url":"[^%]]+"url":"([^"]+)') or g:match('"thumbnails":%[{"url":"([^"]+)') or ''
 						logo = logo:gsub('^//', 'https://')
 						tab[i].InfoPanelLogo = logo
 						tab[i].InfoPanelShowTime = 10000
@@ -2796,23 +2797,23 @@ https://github.com/grafi-tt/lunaJson
 			 return
 			end
 		if m_simpleTV.User.paramScriptForSkin_buttonInfo then
-			t.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonInfo, ButtonScript = 'Qlty_YT()'}
+			t.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonInfo, ButtonScript = 'Qlty_YT()'}
 		else
 			t.ExtButton1 = {ButtonEnable = true, ButtonName = 'ℹ️'}
 		end
 		t.ExtParams = {FilterType = 2}
 		if m_simpleTV.User.paramScriptForSkin_buttonOk then
-			t.OkButton = {ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
+			t.OkButton = {ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
 		end
 		if not m_simpleTV.User.YT.isVideo then
 			if m_simpleTV.User.paramScriptForSkin_buttonSave then
-				t.ExtButton0 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonSave}
+				t.ExtButton0 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonSave}
 			else
 				t.ExtButton0 = {ButtonEnable = true, ButtonName = '💾'}
 			end
 		else
 			if m_simpleTV.User.paramScriptForSkin_buttonSearch then
-				t.ExtButton0 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonSearch}
+				t.ExtButton0 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonSearch}
 			else
 				t.ExtButton0 = {ButtonEnable = true, ButtonName = '🔎'}
 			end
@@ -2888,7 +2889,7 @@ https://github.com/grafi-tt/lunaJson
 			end
 		tab.ExtParams = {FilterType = 2}
 		if m_simpleTV.User.paramScriptForSkin_buttonOk then
-			tab.OkButton = {ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
+			tab.OkButton = {ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
 		end
 		local ret, id = m_simpleTV.OSD.ShowSelect_UTF8('📋 ' .. m_simpleTV.User.YT.ChTitle, index - 1, tab, 30000, 1 + 4 + 2 + 128)
 		if not id then
@@ -3002,7 +3003,11 @@ https://github.com/grafi-tt/lunaJson
 	end
 	if inAdr:match('^%-') then
 		if m_simpleTV.Control.MainMode == 0 then
-			m_simpleTV.Control.ChangeChannelLogo(m_simpleTV.User.YT.logoDisk, m_simpleTV.Control.ChannelID)
+			if not inAdr:match('^%-related=') then
+				m_simpleTV.Control.ChangeChannelLogo('https://s.ytimg.com/yts/img/reporthistory/land-img-vfl_eF5BA.png', m_simpleTV.Control.ChannelID)
+			else
+				m_simpleTV.Control.ExecuteAction(37, 0)
+			end
 		end
 		local t, types, header = Search(inAdr)
 		m_simpleTV.Http.Close(session)
@@ -3029,20 +3034,20 @@ https://github.com/grafi-tt/lunaJson
 		end
 		t.ExtParams = {FilterType = FilterType, AutoNumberFormat = AutoNumberFormat}
 		if m_simpleTV.User.paramScriptForSkin_buttonClose then
-			t.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonClose}
+			t.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonClose}
 		else
 			t.ExtButton1 = {ButtonEnable = true, ButtonName = '✕'}
 		end
 		if m_simpleTV.User.paramScriptForSkin_buttonOk then
-			t.OkButton = {ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
+			t.OkButton = {ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
 		end
-		local ret, id = m_simpleTV.OSD.ShowSelect_UTF8('🔎 ' .. title, 0, t, 30000, 1 + 4 + 8 + 2 + 128)
-		m_simpleTV.Control.ExecuteAction(37)
+		local ret, id = m_simpleTV.OSD.ShowSelect_UTF8('🔎 ' .. title, 0, t, 30000, 1 + 4 + 8 + 2)
+		m_simpleTV.Control.ExecuteAction(37, 0)
 			if not id or ret == 3 then
 				m_simpleTV.Control.ExecuteAction(11)
 			 return
 			end
-		t = t[id].Address .. '&isLogo=false&isLogo=false'
+		t = t[id].Address .. '&isSearch=true'
 		PlayAddressT_YT(t)
 	 return
 	end
@@ -3141,6 +3146,7 @@ https://github.com/grafi-tt/lunaJson
 			url = url:gsub('(^.-/playlists)', '%1') .. '?view=1&sort=lad&shelf_id=0&isRestart=true'
 		end
 		url = url:gsub('&isRestart=true', '') .. '&isRestart=true'
+		url = url:gsub('&isSearch=true', '')
 		if not m_simpleTV.User.YT.ChPlst.countErr then
 			m_simpleTV.User.YT.ChPlst.countErr = 0
 		end
@@ -3152,6 +3158,7 @@ https://github.com/grafi-tt/lunaJson
 				m_simpleTV.User.YT.ChPlst.Urls = nil
 				m_simpleTV.User.YT.ChPlst.FirstUrl = nil
 				m_simpleTV.User.YT.ChPlst.Num = nil
+				m_simpleTV.User.YT.upLoadOnCh = false
 			end
 		end
 		if m_simpleTV.User.YT.ChPlst.MainUrl ~= url then
@@ -3199,7 +3206,7 @@ https://github.com/grafi-tt/lunaJson
 		chTitle = title_clean(chTitle)
 		m_simpleTV.User.YT.ChTitle = chTitle
 		local channel_banner = answer:match('"tvBanner":{"thumbnails":%[.-:480},{"url":"(.-)%-fcrop')
-		local channel_avatar = answer:match('"avatar":{"thumbnails":%[{"url":"([^"]+)')
+		local channel_avatar = answer:match('"thumbnails":%[{"url":"[^%]]+"url":"([^"]+)') or answer:match('"avatar":{"thumbnails":%[{"url":"([^"]+)')
 		if channel_banner then
 			channel_banner = channel_banner:gsub('^//', 'https://')
 		end
@@ -3225,8 +3232,9 @@ https://github.com/grafi-tt/lunaJson
 		answer = answer:gsub('}', '')
 		local chId
 		if not inAdr:match('browse_ajax') then
-			chId = inAdr:match('/channel/([^/]+)') or answer:match('/channel/([^"/]+)')
+			chId = inAdr:match('/channel/([^/]+)') or answer:match('"browseId":"([^"]+)')
 		end
+		local upLoadOnCh_plst
 		local tab, i = {}, 1
 		local j = 1 + tonumber(num)
 		local shelf = inAdr:match('shelf_id=(%d+)') or '0'
@@ -3265,8 +3273,12 @@ https://github.com/grafi-tt/lunaJson
 				if plstTotalResults then
 					tab = plstTotalResults
 					i = 2
+					m_simpleTV.User.YT.upLoadOnCh = true
 				end
 			end
+		end
+		if m_simpleTV.User.YT.upLoadOnCh and j > 1 then
+			j = j - 1
 		end
 			for adr, logo, name, count in answer:gmatch('PlaylistRenderer":"playlistId":"([^"]+).-"thumbnails":%["url":"([^"]+).-"text":"([^"]+).-"videoCountShortText":"simpleText":"([^"]+)') do
 				tab[i] = {}
@@ -3382,17 +3394,17 @@ https://github.com/grafi-tt/lunaJson
 			buttonPrev = true
 		end
 		if m_simpleTV.User.paramScriptForSkin_buttonPrev then
-			tab.ExtButton0 = {ButtonEnable = buttonPrev, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonPrev}
+			tab.ExtButton0 = {ButtonEnable = buttonPrev, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonPrev}
 		else
 			tab.ExtButton0 = {ButtonEnable = buttonPrev, ButtonName = '🢀'}
 		end
 		if m_simpleTV.User.paramScriptForSkin_buttonNext then
-			tab.ExtButton1 = {ButtonEnable = buttonNext, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonNext}
+			tab.ExtButton1 = {ButtonEnable = buttonNext, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonNext}
 		else
 			tab.ExtButton1 = {ButtonEnable = buttonNext, ButtonName = '🢂'}
 		end
 		if m_simpleTV.User.paramScriptForSkin_buttonOk then
-			tab.OkButton = {ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
+			tab.OkButton = {ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
 		end
 		num = #tab + tonumber(num)
 		local nom1ChPlstTab = tonumber(tab[1].Name:match('^(%d+)') or '1')
@@ -3556,12 +3568,12 @@ https://github.com/grafi-tt/lunaJson
 				end
 				tab.ExtParams = {FilterType = FilterType, SortOrder = SortOrder, AutoNumberFormat = AutoNumberFormat}
 				if m_simpleTV.User.paramScriptForSkin_buttonClose then
-					tab.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonClose}
+					tab.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonClose}
 				else
 					tab.ExtButton1 = {ButtonEnable = true, ButtonName = '✕'}
 				end
 				if m_simpleTV.User.paramScriptForSkin_buttonOk then
-					tab.OkButton = {ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
+					tab.OkButton = {ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
 				end
 				local ret, id = m_simpleTV.OSD.ShowSelect_UTF8(header, 0, tab, 30000, 1 + 4 + 8 + 2 + 128)
 				m_simpleTV.Control.ExecuteAction(37)
@@ -3581,7 +3593,7 @@ https://github.com/grafi-tt/lunaJson
 		m_simpleTV.User.YT.Plst = tab
 		m_simpleTV.User.YT.plstHeader = header
 		if m_simpleTV.User.paramScriptForSkin_buttonOptions then
-			tab.ExtButton0 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOptions, ButtonScript = 'Qlty_YT()'}
+			tab.ExtButton0 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOptions, ButtonScript = 'Qlty_YT()'}
 		else
 			tab.ExtButton0 = {ButtonEnable = true, ButtonName = '⚙', ButtonScript = 'Qlty_YT()'}
 		end
@@ -3600,7 +3612,7 @@ https://github.com/grafi-tt/lunaJson
 		if m_simpleTV.User.YT.isChPlst
 		then
 			if m_simpleTV.User.paramScriptForSkin_buttonPlst then
-				tab.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonPlst, ButtonScript = 'ChPlst_YT()'}
+				tab.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonPlst, ButtonScript = 'ChPlst_YT()'}
 			else
 				tab.ExtButton1 = {ButtonEnable = true, ButtonName = '📋', ButtonScript = 'ChPlst_YT()'}
 			end
@@ -3612,13 +3624,13 @@ https://github.com/grafi-tt/lunaJson
 						dofile(m_simpleTV.MainScriptDir .. 'user/video/YT.lua')
 					]]
 			if m_simpleTV.User.paramScriptForSkin_buttonPlst then
-				tab.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonPlst, ButtonScript = ButtonScript1}
+				tab.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonPlst, ButtonScript = ButtonScript1}
 			else
 				tab.ExtButton1 = {ButtonEnable = true, ButtonName = '📋', ButtonScript = ButtonScript1}
 			end
 		end
 		if m_simpleTV.User.paramScriptForSkin_buttonOk then
-			tab.OkButton = {ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
+			tab.OkButton = {ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
 		end
 		local vId = tab[1].Address:match('v=([^&]+)')
 		m_simpleTV.User.YT.AddToBaseUrlinAdr = url
@@ -3819,17 +3831,17 @@ https://github.com/grafi-tt/lunaJson
 					]]
 			end
 			if m_simpleTV.User.paramScriptForSkin_buttonOptions then
-				tab.ExtButton0 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOptions, ButtonScript = 'Qlty_YT()'}
+				tab.ExtButton0 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOptions, ButtonScript = 'Qlty_YT()'}
 			else
 				tab.ExtButton0 = {ButtonEnable = true, ButtonName = '⚙', ButtonScript = 'Qlty_YT()'}
 			end
 			if m_simpleTV.User.paramScriptForSkin_buttonPlst then
-				tab.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonPlst, ButtonScript = ButtonScript1}
+				tab.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonPlst, ButtonScript = ButtonScript1}
 			else
 				tab.ExtButton1 = {ButtonEnable = true, ButtonName = '📋', ButtonScript = ButtonScript1}
 			end
 			if m_simpleTV.User.paramScriptForSkin_buttonOk then
-				tab.OkButton = {ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
+				tab.OkButton = {ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
 			end
 			local FilterType, AutoNumberFormat
 			if #tab > 1 then
@@ -4018,14 +4030,14 @@ https://github.com/grafi-tt/lunaJson
 				PlayMode = - 1
 			end
 			if m_simpleTV.User.paramScriptForSkin_buttonOptions then
-				tab.ExtButton0 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOptions, ButtonScript = 'Qlty_YT()'}
+				tab.ExtButton0 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOptions, ButtonScript = 'Qlty_YT()'}
 			else
 				tab.ExtButton0 = {ButtonEnable = true, ButtonName = '⚙', ButtonScript = 'Qlty_YT()'}
 			end
 			if m_simpleTV.User.YT.isChPlst
 			then
 				if m_simpleTV.User.paramScriptForSkin_buttonPlst then
-					tab.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonPlst, ButtonScript = 'ChPlst_YT()'}
+					tab.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonPlst, ButtonScript = 'ChPlst_YT()'}
 				else
 					tab.ExtButton1 = {ButtonEnable = true, ButtonName = '📋', ButtonScript = 'ChPlst_YT()'}
 				end
@@ -4037,13 +4049,13 @@ https://github.com/grafi-tt/lunaJson
 						dofile(m_simpleTV.MainScriptDir .. 'user/video/YT.lua')
 					]]
 				if m_simpleTV.User.paramScriptForSkin_buttonPlst then
-					tab.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonPlst, ButtonScript = ButtonScript1}
+					tab.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonPlst, ButtonScript = ButtonScript1}
 				else
 					tab.ExtButton1 = {ButtonEnable = true, ButtonName = '📋', ButtonScript = ButtonScript1}
 				end
 			end
 			if m_simpleTV.User.paramScriptForSkin_buttonOk then
-				tab.OkButton = {ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
+				tab.OkButton = {ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
 			end
 			local retAdr
 			tab.ExtParams = {}
@@ -4110,11 +4122,11 @@ https://github.com/grafi-tt/lunaJson
 														, m_simpleTV.Control.ChannelID
 														, 'CHANGE_IF_NOT_EQUAL')
 					end
-					if not urlAdr:match('isLogo=false') then
+					if not urlAdr:match('isLogo=false') or urlAdr:match('isSearch=true') then
 						m_simpleTV.Control.ChangeChannelName(header, m_simpleTV.Control.ChannelID, false)
 					end
 				end
-				if not urlAdr:match('isLogo=false') or urlAdr:match('isLogo=false&isLogo=false') then
+				if not urlAdr:match('isLogo=false') then
 					m_simpleTV.Control.CurrentTitle_UTF8 = header
 				else
 					m_simpleTV.Control.SetTitle(header .. ' (' .. title .. ')')
@@ -4238,7 +4250,7 @@ https://github.com/grafi-tt/lunaJson
 			end
 			t1.ExtParams = {FilterType = 2, LuaOnCancelFunName = 'OnMultiAddressCancel_YT'}
 			if m_simpleTV.User.paramScriptForSkin_buttonOptions then
-				t1.ExtButton0 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOptions, ButtonScript = 'Qlty_YT()'}
+				t1.ExtButton0 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOptions, ButtonScript = 'Qlty_YT()'}
 			else
 				t1.ExtButton0 = {ButtonEnable = true, ButtonName = '⚙', ButtonScript = 'Qlty_YT()'}
 			end
@@ -4249,12 +4261,12 @@ https://github.com/grafi-tt/lunaJson
 						dofile(m_simpleTV.MainScriptDir .. 'user/video/YT.lua')
 					]]
 			if m_simpleTV.User.paramScriptForSkin_buttonPlst then
-				t1.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonPlst, ButtonScript = ButtonScript1}
+				t1.ExtButton1 = {ButtonEnable = true, ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonPlst, ButtonScript = ButtonScript1}
 			else
 				t1.ExtButton1 = {ButtonEnable = true, ButtonName = '📋', ButtonScript = ButtonScript1}
 			end
 			if m_simpleTV.User.paramScriptForSkin_buttonOk then
-				t1.OkButton = {ButtonImageCx = 30, ButtonImageCy= 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
+				t1.OkButton = {ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
 			end
 			m_simpleTV.OSD.ShowSelect_UTF8(header, 0, t1, 8000, 32 + 64 + 128)
 			retAdr = positionToContinue(retAdr)
