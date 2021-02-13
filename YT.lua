@@ -1,4 +1,4 @@
--- видеоскрипт для сайта https://www.youtube.com (12/2/21)
+-- видеоскрипт для сайта https://www.youtube.com (14/2/21)
 --[[
 	Copyright © 2017-2021 Nexterr
 	Licensed under the Apache License, Version 2.0 (the "License");
