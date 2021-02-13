@@ -40,7 +40,7 @@ local infoInFile = false
 	local urlAdr = inAdr
 	m_simpleTV.Control.ChangeAddress = 'Yes'
 	m_simpleTV.Control.CurrentAddress = 'error'
-		if m_simpleTV.Common.GetVersion() < 880
+		if m_simpleTV.Common.GetVersion() < 890
 			or m_simpleTV.Common.GetVlcVersion() < 3000
 		then
 			local mess = 'simpleTV version too old, need 0.5.0 b12.7.6 (vlc 3.0.11) or newer'
