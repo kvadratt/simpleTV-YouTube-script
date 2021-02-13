@@ -1039,7 +1039,7 @@ https://github.com/grafi-tt/lunaJson
 			desc = string.gsub(desc, 'none">(https?://[%a.]*youtu[.combe][^<]+)<',
 				function(c)
 						if c:match('sub_confirmation') or c:match('subscription_center') then return end
-				 return string.format('none">%s</a> <a href="simpleTVLua:PlayAddressT_YT(\'%s\')"><img src="' .. m_simpleTV.User.YT.playIcoDisk ..'" height="32" valign="top"><', c, utf8ToEscUnicode(urls_encode(c)))
+				 return string.format('none">%s</a> <a href="simpleTVLua:PlayAddressT_YT(\'%s\')"><img src="' .. m_simpleTV.User.YT.playIcoDisk ..'" height="32" valign="top"><', c, utf8ToEscUnicode(c))
 				end)
 			desc = string.gsub(desc, '#([^%s%c#,]+)',
 				function(c)
@@ -1047,7 +1047,7 @@ https://github.com/grafi-tt/lunaJson
 					if c:match('%.$') then
 						c = string.format('<span style="color:%%23817c76; font-size:small;">#%s</span>', c)
 					else
-						c = string.format('<a href="simpleTVLua:PlayAddressT_YT(\'https://www.youtube.com/hashtag/%s\')" style="color:#436FAF; font-size:small; text-decoration:none">#%s</a>', utf8ToEscUnicode(urls_encode(c:gsub('%p+$', ''))), c)
+						c = string.format('<a href="simpleTVLua:PlayAddressT_YT(\'https://www.youtube.com/hashtag/%s\')" style="color:#436FAF; font-size:small; text-decoration:none">#%s</a>', utf8ToEscUnicode(c:gsub('%p+$', '')), c)
 					end
 				 return c
 				end)
@@ -2740,6 +2740,7 @@ https://github.com/grafi-tt/lunaJson
 	function PlayAddressT_YT(address, resent)
 		address = m_simpleTV.Common.fromPercentEncoding(address)
 		address = unescape3(address)
+		address = urls_encode(address)
 		m_simpleTV.Control.PlayAddressT({address = address, insertInRecent = resent})
 	end
 	function SavePlst_YT()
