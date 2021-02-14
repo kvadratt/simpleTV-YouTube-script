@@ -43,7 +43,7 @@ local infoInFile = false
 		if m_simpleTV.Common.GetVersion() < 890
 			or m_simpleTV.Common.GetVlcVersion() < 3000
 		then
-			local mess = 'simpleTV version too old, need 0.5.0 b12.7.6 (vlc 3.0.11) or newer'
+			local mess = 'simpleTV version too old, need 0.5.0 b12.7.7 (vlc 3.0.11) or newer'
 			m_simpleTV.Interface.MessageBox(mess, 'YouTube', 0x10)
 			m_simpleTV.Control.ExecuteAction(147)
 		 return
