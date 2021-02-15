@@ -1041,7 +1041,7 @@ https://github.com/grafi-tt/lunaJson
 						if c:match('sub_confirmation') or c:match('subscription_center') then return end
 				 return string.format('none">%s</a> <a href="simpleTVLua:PlayAddressT_YT(\'%s\')"><img src="' .. m_simpleTV.User.YT.playIcoDisk ..'" height="32" valign="top"><', c, utf8ToEscUnicode(c))
 				end)
-			desc = string.gsub(desc, '#([^%s%c/#,:-]+)',
+			desc = string.gsub(desc, '#([^\'%s%c/#,:-]+)',
 				function(c)
 						if c:match('^%d+$') then return end
 					if c:match('%.$') then
@@ -1052,7 +1052,7 @@ https://github.com/grafi-tt/lunaJson
 				 return c
 				end)
 		else
-			desc = string.gsub(desc, '#([^%s%c/#,:-]+)',
+			desc = string.gsub(desc, '#([^\'%s%c/#,:-]+)',
 				function(c)
 						if c:match('^%d+$') then return end
 					if c:match('%.$') then
