@@ -1,4 +1,4 @@
--- видеоскрипт для сайта https://www.youtube.com (15/2/21)
+-- видеоскрипт для сайта https://www.youtube.com (16/2/21)
 --[[
 	Copyright © 2017-2021 Nexterr
 	Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,7 +11,7 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 ]]
--- https://github.com/Nexterr-origin/simpleTV-script-YT
+-- https://github.com/Nexterr-origin/simpleTV-YouTube-script
 -- UTF-8 without BOM
 -- поиск из окна "Открыть URL" (Ctrl+N), префиксы: - (видео), -- (плейлисты), --- (каналы), -+ (прямые трансляции)
 -- авторизаця: файл формата "Netscape HTTP Cookie File" - cookies.txt поместить в папку 'work' (https://addons.mozilla.org/en-US/firefox/addon/cookies-txt )
