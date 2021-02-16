@@ -106,7 +106,8 @@ local infoInFile = false
 			or inAdr:match('&isPlst=')
 			or inAdr:match('browse_ajax')
 			or inAdr:match('&isLogo=')
-			or inAdr:match('&isRestart=true')
+			or inAdr:match('&isRestart=')
+			or inAdr:match('&isSearch=')
 			or inAdr:match('&isMix='))
 	then
 		inAdr = format_inAdr(inAdr)
