@@ -1390,11 +1390,12 @@ https://github.com/grafi-tt/lunaJson
 		local d = desc_clean(m_simpleTV.User.YT.desc)
 		d = split_str(d, '\n')
 		local tab = {}
-		local x, h = 0, 0
-			local function chapTab(t, b)
-					for i = b, #t do
+			local function chapTab(t)
+				local seekp = 0
+				local duration = m_simpleTV.User.YT.duration
+					for i = 1, #t do
 						if t[i]:match('%d+:%d+')
-							and not t[i]:match('https?:')
+							and not t[i]:match('://')
 						then
 							t[i] = t[i]:gsub('^(.-)([%d:]*%d+:%d+)(.-)$', ' %1 %2 %3 ')
 							local sec = t[i]:match(':(%d+)%s')
@@ -1402,33 +1403,22 @@ https://github.com/grafi-tt/lunaJson
 							local hour = t[i]:match('(%d+):%d+:%d+') or 0
 							local seekpoint = (sec + (min * 60) + (hour * 3600))
 							local title = t[i]:gsub('[%d:]*%d+:%d+', '')
-							if #tab == 0 then
-								x = 0
-							end
 							if title ~= ''
 								and not title:match('^[%p%s]+$')
-								and seekpoint < m_simpleTV.User.YT.duration
-								and x < 4
+								and seekpoint < duration
+								and seekp <= seekpoint
 							then
-								x = 0
 								table.insert(tab, {seekpoint = seekpoint, title = title})
-							elseif #tab < 3 then
-									if h == i then break end
-								h = i
-								tab = {}
-								chapTab(t, i)
+								seekp = seekpoint
 							end
 							if #tab == 2 and tab[1].seekpoint >= tab[2].seekpoint then
-								tab = {}
-								chapTab(t, i)
+								table.remove(tab, 1)
 							end
-						else
-							x = x + 1
 						end
 					end
 			 return tab
 			end
-		tab = chapTab(d, 1)
+		tab = chapTab(d)
 			if #tab < 3 then return end
 		if tab[1].seekpoint ~= 0 then
 			table.insert(tab, 1, {seekpoint = 0, title = ''})
