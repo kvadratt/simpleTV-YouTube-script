@@ -106,7 +106,8 @@ local infoInFile = false
 			or inAdr:match('&isPlst=')
 			or inAdr:match('browse_ajax')
 			or inAdr:match('&isLogo=')
-			or inAdr:match('&isRestart=true')
+			or inAdr:match('&isRestart=')
+			or inAdr:match('&isSearch=')
 			or inAdr:match('&isMix='))
 	then
 		inAdr = format_inAdr(inAdr)
@@ -1389,7 +1390,7 @@ https://github.com/grafi-tt/lunaJson
 		local d = desc_clean(m_simpleTV.User.YT.desc)
 		d = split_str(d, '\n')
 		local tab = {}
-		local x, h = 1, 0
+		local x, h = 0, 0
 			local function chapTab(t, b)
 					for i = b, #t do
 						if t[i]:match('%d+:%d+')
@@ -1407,8 +1408,9 @@ https://github.com/grafi-tt/lunaJson
 							if title ~= ''
 								and not title:match('^[%p%s]+$')
 								and seekpoint < m_simpleTV.User.YT.duration
-								and #tab == x
+								and x < 4
 							then
+								x = 0
 								table.insert(tab, {seekpoint = seekpoint, title = title})
 							elseif #tab < 3 then
 									if h == i then break end
@@ -1420,8 +1422,9 @@ https://github.com/grafi-tt/lunaJson
 								tab = {}
 								chapTab(t, i)
 							end
+						else
+							x = x + 1
 						end
-						x = x + 1
 					end
 			 return tab
 			end
