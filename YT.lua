@@ -1,4 +1,4 @@
--- видеоскрипт для сайта https://www.youtube.com (16/2/21)
+-- видеоскрипт для сайта https://www.youtube.com (17/2/21)
 --[[
 	Copyright © 2017-2021 Nexterr
 	Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,8 +43,8 @@ local infoInFile = false
 		if m_simpleTV.Common.GetVersion() < 890
 			or m_simpleTV.Common.GetVlcVersion() < 3000
 		then
-			local mess = 'simpleTV version too old, need 0.5.0 b12.7.7 (vlc 3.0.11) or newer'
-			m_simpleTV.Interface.MessageBox(mess, 'YouTube', 0x10)
+			local msg = 'simpleTV version too old, need 0.5.0 b12.7.7 (vlc 3.0.11) or newer'
+			m_simpleTV.Interface.MessageBox(msg, 'YouTube', 0x10)
 			m_simpleTV.Control.ExecuteAction(147)
 		 return
 		end
@@ -473,12 +473,12 @@ local infoInFile = false
 	if m_simpleTV.User.YT.isChPlst then
 		m_simpleTV.User.YT.isChPlst = nil
 	end
-	local function ShowMessage(mess, reason, qlty)
+	local function ShowMessage(msg, reason, qlty)
 		if reason then
-			mess = mess .. '\n' .. reason
+			msg = msg .. '\n' .. reason
 		end
 		local t = {}
-			for m in mess:gmatch('[^\n]+') do
+			for m in msg:gmatch('[^\n]+') do
 				t[#t + 1] = m
 			end
 			for j = #t, 1, -1 do
@@ -1382,16 +1382,9 @@ https://github.com/grafi-tt/lunaJson
 	 return raw:match('Location: (.-)\n')
 	end
 	local function Chapters()
-			if m_simpleTV.User.YT.desc == ''
-				or not m_simpleTV.User.YT.desc:match('%d+:%d+')
-			then
-			 return
-			end
-		local d = desc_clean(m_simpleTV.User.YT.desc)
-		d = split_str(d, '\n')
-		local tab = {}
 			local function chapTab(t)
-				local seekp = 0
+				local tab = {}
+				local seekp = -1
 				local duration = m_simpleTV.User.YT.duration
 					for i = 1, #t do
 						if t[i]:match('%d+:%d+')
@@ -1406,7 +1399,7 @@ https://github.com/grafi-tt/lunaJson
 							if title ~= ''
 								and not title:match('^[%p%s]+$')
 								and seekpoint < duration
-								and seekp <= seekpoint
+								and seekp < seekpoint
 							then
 								table.insert(tab, {seekpoint = seekpoint, title = title})
 								seekp = seekpoint
@@ -1418,28 +1411,29 @@ https://github.com/grafi-tt/lunaJson
 					end
 			 return tab
 			end
-		tab = chapTab(d)
-			if #tab < 3 then return end
-		if tab[1].seekpoint ~= 0 then
-			table.insert(tab, 1, {seekpoint = 0, title = ''})
+		local d = desc_clean(m_simpleTV.User.YT.desc)
+		d = split_str(d, '\n')
+		local t = chapTab(d)
+			if #t < 3 then return end
+		if t[1].seekpoint ~= 0 then
+			table.insert(t, 1, {seekpoint = 0, title = ''})
 		end
 		local chaptersT = {}
 		chaptersT.chapters = {}
-			for i = 1, #tab do
-				local title = tab[i].title
-				title = title_clean(title)
+			for i = 1, #t do
+				local title = t[i].title
+				title = title:gsub('%s+', ' ')
 				title = title:gsub('–', '-')
 				title = title:gsub('^%s*"(.-)"%s*$', '%1')
 				title = title:gsub('%([%s-]*%)', '')
 				title = title:gsub('%[[%s-]*%]', '')
 				title = title:gsub('^[:%[%]%s-.]*(.-)[:%[%]%s-.]*$', '%1')
 				chaptersT.chapters[i] = {}
-				chaptersT.chapters[i].seekpoint = tab[i].seekpoint * 1000
+				chaptersT.chapters[i].seekpoint = t[i].seekpoint * 1000
 				chaptersT.chapters[i].name = title
 			end
 		m_simpleTV.Control.SetChaptersDesc(chaptersT)
 		m_simpleTV.User.YT.isChapters = true
-	 return true
 	end
 	local function Thumbs(storyboards)
 			if m_simpleTV.Control.MainMode ~= 0 then return end
@@ -2414,7 +2408,11 @@ https://github.com/grafi-tt/lunaJson
 			m_simpleTV.User.YT.videostats = tab.playbackTracking.videostatsPlaybackUrl.baseUrl
 		end
 		m_simpleTV.Http.Close(session)
-		if m_simpleTV.User.YT.duration and m_simpleTV.User.YT.duration > 300 then
+		if m_simpleTV.User.YT.duration
+			and m_simpleTV.User.YT.duration > 120
+			and m_simpleTV.User.YT.desc ~= ''
+			and m_simpleTV.User.YT.desc:match('%d+:%d+')
+		then
 			Chapters()
 		end
 	 return t, title
