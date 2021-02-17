@@ -1036,9 +1036,9 @@ https://github.com/grafi-tt/lunaJson
 					end
 				 return c:gsub('([.,)]+)"', '"%1'):gsub('([.,)]+)</a>', '</a>%1')
 				end)
-		desc = string.gsub(desc, '(%d+:[:%d+]+)',
+		desc = string.gsub(desc, '(%d+:[:%d]+)',
 				function(c)
-				 return string.format('<span style="color:%%23817c76; font-size:small;">%s</span>', c)
+				 return string.format('<span style="color:%%23e6e76d; font-size:small;">%s</span>', c)
 				end)
 		if not isSearch then
 			desc = string.gsub(desc, 'none">(https?://[%a.]*youtu[.combe][^<]+)<',
