@@ -1,4 +1,4 @@
--- видеоскрипт для сайта https://www.youtube.com (17/2/21)
+-- видеоскрипт для сайта https://www.youtube.com (18/2/21)
 --[[
 	Copyright © 2017-2021 Nexterr
 	Licensed under the Apache License, Version 2.0 (the "License");
@@ -1038,8 +1038,9 @@ https://github.com/grafi-tt/lunaJson
 				end)
 		desc = string.gsub(desc, '([^%s%c]-%d+:%S+)',
 				function(c)
-					if c:match('[^%d:%[%]()]+') then return end
-				 return string.format('<span style="color:%%23e6e76d; font-size:small;">%s</span>', c)
+						if c:match('[^%d:%[%]()]+') then return end
+					c = string.format('<span style="color:%%23e6e76d; font-size:small;">%s</span>', c)
+				 return c:gsub('^(.-">)([%[(]*)(.-)([%])]*)(</.-)$', '%2%1%3%5%4')
 				end)
 		if not isSearch then
 			desc = string.gsub(desc, 'none">(https?://[%a.]*youtu[.combe][^<]+)<',
@@ -1047,7 +1048,7 @@ https://github.com/grafi-tt/lunaJson
 						if c:match('sub_confirmation') or c:match('subscription_center') then return end
 				 return string.format('none">%s</a> <a href="simpleTVLua:PlayAddressT_YT(\'%s\')"><img src="' .. m_simpleTV.User.YT.playIcoDisk ..'" height="32" valign="top"><', c, utf8ToEscUnicode(c))
 				end)
-			desc = string.gsub(desc, '#([^\'%s%c/#,:-]+)',
+			desc = string.gsub(desc, '#([^\'%s%c/#,:-?]+)',
 				function(c)
 						if c:match('^%d+$') then return end
 					if c:match('%.$') then
@@ -1058,7 +1059,7 @@ https://github.com/grafi-tt/lunaJson
 				 return c
 				end)
 		else
-			desc = string.gsub(desc, '#([^\'%s%c/#,:-]+)',
+			desc = string.gsub(desc, '#([^\'%s%c/#,:-?]+)',
 				function(c)
 						if c:match('^%d+$') then return end
 					if c:match('%.$') then
