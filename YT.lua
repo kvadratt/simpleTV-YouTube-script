@@ -2810,7 +2810,7 @@ https://github.com/grafi-tt/lunaJson
 				t.ExtButton0 = {ButtonEnable = true, ButtonName = '🔎'}
 			end
 		end
-		m_simpleTV.Control.ExecuteAction(37, 1)
+		m_simpleTV.Control.ExecuteAction(37)
 		local ret, id = m_simpleTV.OSD.ShowSelect_UTF8('⚙ ' .. m_simpleTV.User.YT.Lng.qlty
 														, m_simpleTV.User.YT.QltyIndex - 1, t, 5000, 1 + 4 + 2)
 		if m_simpleTV.Control.GetState() == 0 and ret == 0 then
@@ -2998,7 +2998,7 @@ https://github.com/grafi-tt/lunaJson
 			if not inAdr:match('^%-related=') then
 				m_simpleTV.Control.ChangeChannelLogo('https://s.ytimg.com/yts/img/reporthistory/land-img-vfl_eF5BA.png', m_simpleTV.Control.ChannelID)
 			else
-				m_simpleTV.Control.ExecuteAction(37, 0)
+				m_simpleTV.Control.ExecuteAction(37)
 			end
 		end
 		local t, types, header = Search(inAdr)
@@ -3034,7 +3034,7 @@ https://github.com/grafi-tt/lunaJson
 			t.OkButton = {ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
 		end
 		local ret, id = m_simpleTV.OSD.ShowSelect_UTF8('🔎 ' .. title, 0, t, 30000, 1 + 4 + 8 + 2)
-		m_simpleTV.Control.ExecuteAction(37, 0)
+		m_simpleTV.Control.ExecuteAction(37)
 			if not id or ret == 3 then
 				m_simpleTV.Control.ExecuteAction(11)
 			 return
@@ -3566,7 +3566,7 @@ https://github.com/grafi-tt/lunaJson
 				if m_simpleTV.User.paramScriptForSkin_buttonOk then
 					tab.OkButton = {ButtonImageCx = 30, ButtonImageCy = 30, ButtonImage = m_simpleTV.User.paramScriptForSkin_buttonOk}
 				end
-				local ret, id = m_simpleTV.OSD.ShowSelect_UTF8(header, 0, tab, 30000, 1 + 4 + 8 + 2 + 128)
+				local ret, id = m_simpleTV.OSD.ShowSelect_UTF8(header, -1, tab, 30000, 1 + 4 + 8 + 2)
 				m_simpleTV.Control.ExecuteAction(37)
 					if not id or ret == 3 then
 						m_simpleTV.Control.ExecuteAction(37)
