@@ -1,4 +1,4 @@
--- видеоскрипт для сайта https://www.youtube.com (18/2/21)
+-- видеоскрипт для сайта https://www.youtube.com (19/2/21)
 --[[
 	Copyright © 2017-2021 Nexterr
 	Licensed under the Apache License, Version 2.0 (the "License");
@@ -956,7 +956,7 @@ https://github.com/grafi-tt/lunaJson
 	 return tbl
 	end
 	local function urls_encode(str)
-		str = string.gsub(str, '([^%w:/=.&?-_])',
+		str = string.gsub(str, '([^%w:/=.&%-?_])',
 				function(c)
 				 return string.format('%%%02X', string.byte(c))
 				end)
@@ -1048,7 +1048,7 @@ https://github.com/grafi-tt/lunaJson
 						if c:match('sub_confirmation') or c:match('subscription_center') then return end
 				 return string.format('none">%s</a> <a href="simpleTVLua:PlayAddressT_YT(\'%s\')"><img src="' .. m_simpleTV.User.YT.playIcoDisk ..'" height="32" valign="top"><', c, utf8ToEscUnicode(c))
 				end)
-			desc = string.gsub(desc, '#([^\'%s%c/#,:-?]+)',
+			desc = string.gsub(desc, '#([^\'%s%c/#,:%-?)]+)',
 				function(c)
 						if c:match('^%d+$') then return end
 					if c:match('%.$') then
@@ -1059,7 +1059,7 @@ https://github.com/grafi-tt/lunaJson
 				 return c
 				end)
 		else
-			desc = string.gsub(desc, '#([^\'%s%c/#,:-?]+)',
+			desc = string.gsub(desc, '#([^\'%s%c/#,:%-?)]+)',
 				function(c)
 						if c:match('^%d+$') then return end
 					if c:match('%.$') then
@@ -1431,8 +1431,8 @@ https://github.com/grafi-tt/lunaJson
 				title = title:gsub('%s+', ' ')
 				title = title:gsub('–', '-')
 				title = title:gsub('^%s*"(.-)"%s*$', '%1')
-				title = title:gsub('[(%[][%s-]*[%])]', '')
-				title = title:gsub('^[|:%s-.]*(.-)[|:%s-.]*$', '%1')
+				title = title:gsub('[(%[][%s%-]*[%])]', '')
+				title = title:gsub('^[|:%s%-.]*(.-)[|:%s%-.]*$', '%1')
 				chaptersT.chapters[i] = {}
 				chaptersT.chapters[i].seekpoint = t[i].seekpoint * 1000
 				chaptersT.chapters[i].name = title
@@ -3780,7 +3780,7 @@ https://github.com/grafi-tt/lunaJson
 				if i == 1 and not urlAdr:match('&isRestart=true&isRestart=true') then
 					m_simpleTV.Http.Close(session)
 					m_simpleTV.Control.ChangeAddress = 'No'
-					m_simpleTV.Control.CurrentAddress = inAdr:gsub('[?&]list=[%a%d_-]+', '') .. '&isRestart=true&isRestart=true'
+					m_simpleTV.Control.CurrentAddress = inAdr:gsub('[?&]list=[%a%d_%-]+', '') .. '&isRestart=true&isRestart=true'
 					dofile(m_simpleTV.MainScriptDir .. 'user/video/YT.lua')
 				 return
 				end
@@ -3963,7 +3963,7 @@ https://github.com/grafi-tt/lunaJson
 							inAdr = inAdr .. '&index=1'
 						end
 					elseif (rc == 404 or rc == 403) and inAdr:match('&isRestart=true') then
-						inAdr = inAdr:gsub('[?&]list=[%w_-]+', '')
+						inAdr = inAdr:gsub('[?&]list=[%w_%-]+', '')
 					end
 					m_simpleTV.Http.Close(session)
 					m_simpleTV.Control.ChangeAddress = 'No'
