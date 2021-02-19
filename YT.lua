@@ -1,4 +1,4 @@
--- видеоскрипт для сайта https://www.youtube.com (19/2/21)
+-- видеоскрипт для сайта https://www.youtube.com (20/2/21)
 --[[
 	Copyright © 2017-2021 Nexterr
 	Licensed under the Apache License, Version 2.0 (the "License");
@@ -1051,23 +1051,23 @@ https://github.com/grafi-tt/lunaJson
 			desc = string.gsub(desc, '#([^\'%s%c/#,:%-?)]+)',
 				function(c)
 						if c:match('^%d+$') then return end
-					if c:match('%.$') then
+					if c:match('%.%.$') then
 						c = string.format('<span style="color:%%23817c76; font-size:small;">#%s</span>', c)
 					else
 						c = string.format('<a href="simpleTVLua:PlayAddressT_YT(\'https://www.youtube.com/hashtag/%s\')" style="color:#436FAF; font-size:small; text-decoration:none">#%s</a>', utf8ToEscUnicode(c:gsub('%p+$', '')), c)
 					end
-				 return c
+				 return c:gsub('(%p+)</a>', '</a>%1')
 				end)
 		else
 			desc = string.gsub(desc, '#([^\'%s%c/#,:%-?)]+)',
 				function(c)
 						if c:match('^%d+$') then return end
-					if c:match('%.$') then
+					if c:match('%.%.$') then
 						c = string.format('<span style="color:%%23817c76; font-size:small;">#%s</span>', c)
 					else
-						c = string.format('<a href="https://www.youtube.com/hashtag/%s" style="color:%%23154C9C; font-size:small; text-decoration:none">#%s</a>', c, c)
+						c = string.format('<a href="https://www.youtube.com/hashtag/%s" style="color:%%23154C9C; font-size:small; text-decoration:none">#%s</a>', c:gsub('%p+$', ''), c)
 					end
-				 return c
+				 return c:gsub('(%p+)</a>', '</a>%1')
 				end)
 		end
 		desc = desc:gsub('%%23', '#')
