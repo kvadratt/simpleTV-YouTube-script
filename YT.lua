@@ -1,4 +1,4 @@
--- видеоскрипт для сайта https://www.youtube.com (20/2/21)
+-- видеоскрипт для сайта https://www.youtube.com (21/2/21)
 --[[
 	Copyright © 2017-2021 Nexterr
 	Licensed under the Apache License, Version 2.0 (the "License");
@@ -962,6 +962,18 @@ https://github.com/grafi-tt/lunaJson
 				end)
 	 return string.gsub(str, ' ', '+')
 	end
+	local function stringToHex(str)
+	 return (str:gsub('.',
+		function (c)
+		 return string.format('\\x%02X', string.byte(c))
+		end))
+	end
+	local function stringFromHex(str)
+	 return (str:gsub('\\x(..)',
+		function (c)
+		 return string.char(tonumber(c, 16))
+		end))
+	end
 	local function split_str(source, delimiters)
 		local elements = {}
 		local pattern
@@ -1036,32 +1048,49 @@ https://github.com/grafi-tt/lunaJson
 					end
 				 return c:gsub('([.,)]+)"', '"%1'):gsub('([.,)]+)</a>', '</a>%1')
 				end)
-		desc = string.gsub(desc, '([^%s%c]-%d+:%S+)',
+		desc = string.gsub(desc, '(%d+[:%d+]+)',
 				function(c)
-						if c:match('[^%d:%[%]()]+') then return end
-					c = string.format('<span style="color:%%23e6e76d; font-size:small;">%s</span>', c)
-				 return c:gsub('^(.-">)([%[(]*)(.-)([%])]*)(</.-)$', '%2%1%3%5%4')
+						if not (c:match('%d+:%d+$')
+							or c:match('%d+:%d+:%d+$'))
+							or c:match('::')
+						then
+						 return
+						end
+				 return string.format('<span style="color:%%23e6e76d; font-size:small;">%s</span>', c)
 				end)
 		if not isSearch then
 			desc = string.gsub(desc, 'none">(https?://[%a.]*youtu[.combe][^<]+)<',
 				function(c)
-						if c:match('sub_confirmation') or c:match('subscription_center') then return end
-				 return string.format('none">%s</a> <a href="simpleTVLua:PlayAddressT_YT(\'%s\')"><img src="' .. m_simpleTV.User.YT.playIcoDisk ..'" height="32" valign="top"><', c, utf8ToEscUnicode(c))
+						if c:match('sub_confirmation')
+							or c:match('subscription_center')
+							or c:match('/join$')
+						then
+						 return
+						end
+				 return string.format('none">%s</a> <a href="simpleTVLua:PlayAddressT_YT(\'%s\')"><img src="' .. m_simpleTV.User.YT.playIcoDisk ..'" height="32" valign="top"><', c, stringToHex(c))
 				end)
 			desc = string.gsub(desc, '#([^\'%s%c/#,:%-?)]+)',
 				function(c)
-						if c:match('^%d+$') then return end
+						if c:match('^%d+$')
+							and #c < 5
+						then
+						 return
+						end
 					if c:match('%.%.$') then
 						c = string.format('<span style="color:%%23817c76; font-size:small;">#%s</span>', c)
 					else
-						c = string.format('<a href="simpleTVLua:PlayAddressT_YT(\'https://www.youtube.com/hashtag/%s\')" style="color:#436FAF; font-size:small; text-decoration:none">#%s</a>', utf8ToEscUnicode(c:gsub('%p+$', '')), c)
+						c = string.format('<a href="simpleTVLua:PlayAddressT_YT(\'https://www.youtube.com/hashtag/%s\')" style="color:#436FAF; font-size:small; text-decoration:none">#%s</a>', stringToHex(c:gsub('%p+$', '')), c)
 					end
 				 return c:gsub('(%p+)</a>', '</a>%1')
 				end)
 		else
 			desc = string.gsub(desc, '#([^\'%s%c/#,:%-?)]+)',
 				function(c)
-						if c:match('^%d+$') then return end
+						if c:match('^%d+$')
+							and #c < 5
+						then
+						 return
+						end
 					if c:match('%.%.$') then
 						c = string.format('<span style="color:%%23817c76; font-size:small;">#%s</span>', c)
 					else
@@ -2735,7 +2764,7 @@ https://github.com/grafi-tt/lunaJson
 	end
 	function PlayAddressT_YT(address, resent)
 		address = m_simpleTV.Common.fromPercentEncoding(address)
-		address = unescape3(address)
+		address = stringFromHex(address)
 		address = urls_encode(address)
 		m_simpleTV.Control.PlayAddressT({address = address, insertInRecent = resent})
 	end
