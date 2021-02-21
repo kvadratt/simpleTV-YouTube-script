@@ -1050,8 +1050,9 @@ https://github.com/grafi-tt/lunaJson
 				end)
 		desc = string.gsub(desc, '(%d+[:%d+]+)',
 				function(c)
-						if not c:match('%d+:%d+')
-							and not c:match('%d+:%d+:%d+')
+						if not (c:match('%d+:%d+$')
+							or c:match('%d+:%d+:%d+$'))
+							or c:match('::')
 						then
 						 return
 						end
